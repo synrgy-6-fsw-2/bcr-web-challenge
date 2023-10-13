@@ -7,18 +7,6 @@ document.addEventListener('DOMContentLoaded', function () {
     const searchManufactureInput = document.getElementById('searchManufacture');
     const searchForm = document.getElementById('form-search-car-manufacture');
 
-    searchForm.addEventListener('submit', function (e) {
-        e.preventDefault(); 
-
-        const searchManufactureValue = searchManufactureInput.value.trim().toLowerCase();
-
-        const filteredCars = carInventory.filter((car) => {
-        return car.manufacture.toLowerCase().includes(searchManufactureValue);
-        });
-
-        renderCarInventory(filteredCars);
-    });
-
     function renderCarInventory(cars) {
       tableBodyListCars.innerHTML = '';
       cars.forEach((car) => {
@@ -36,6 +24,18 @@ document.addEventListener('DOMContentLoaded', function () {
         tableBodyListCars.appendChild(row);
       });
     }
+
+    searchForm.addEventListener('submit', function (e) {
+        e.preventDefault(); 
+
+        const searchManufactureValue = searchManufactureInput.value.trim().toLowerCase();
+
+        const filteredCars = carInventory.filter((car) => {
+        return car.manufacture.toLowerCase().includes(searchManufactureValue);
+        });
+
+        renderCarInventory(filteredCars);
+    });
   
     function filterCars() {
       const availabilityFilter = filterAvailability.value;

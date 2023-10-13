@@ -130,6 +130,10 @@ function filterAvailableCars(carInventory_) {
   return carInventory_.filter(car => car.available == true);
 }
 
+function filterRentedCars(carInventory_) {
+  return carInventory_.filter(car => car.available == true);
+}
+
 function filterCarsByManufacture(inventory, manufacturer) {
   const filteredCars = inventory.filter(car => car.manufacture.toLowerCase() === manufacturer.toLowerCase());
 

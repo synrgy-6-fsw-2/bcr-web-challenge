@@ -136,6 +136,18 @@ function filterCarsByManufacture(inventory, manufacturer) {
   return filteredCars;
 }
 
+function filterCarsByTransmission(inventory, transmission) {
+  const filteredCars = inventory.filter(car => car.transmission.toLowerCase() === transmission.toLowerCase());
+
+  return filteredCars;
+}
+
+function filterCarsByYear(inventory, year) {
+  const numYear = parseInt(year);
+  const filteredCars = inventory.filter(car => car.year === numYear);
+
+  return filteredCars;
+}
 
 const form = document.getElementById('form-search-car-manufacture');
 const input = document.querySelector('[name="manufacture"]');
@@ -196,23 +208,40 @@ document.getElementById("filterManufacture").addEventListener("change", function
   }
 });
 
-document.getElementById("filterManufacture").addEventListener("change", function () {
+document.getElementById("filterTransmission").addEventListener("change", function () {
   const selectedValue = this.value;
-
+  
   if (selectedValue === "all") {
     clear()
     displayAllCars(carInventory);
-  } else if (selectedValue === "Ford") {
-    const fordCars = filterCarsByManufacture(carInventory, selectedValue);
+  } else if (selectedValue === "Automatic") {
+    const fordCars = filterCarsByTransmission(carInventory, selectedValue);
     clear()
     displayAllCars(fordCars);
-  } else if (selectedValue === "BMW") {
-    const bmwCars = filterCarsByManufacture(carInventory, selectedValue);
-    clear()
-    displayAllCars(bmwCars);
-  } else if (selectedValue === "Lincoln") {
-    const lincolnCars = filterCarsByManufacture(carInventory, selectedValue);
+  } else if (selectedValue === "Automanual") {
+    const lincolnCars = filterCarsByTransmission(carInventory, selectedValue);
     clear()
     displayAllCars(lincolnCars);
+  }
+});
+
+document.getElementById("filterYear").addEventListener("change", function () {
+  const selectedValue = this.value;
+  
+  if (selectedValue === "all") {
+    clear()
+    displayAllCars(carInventory);
+  } else if (selectedValue === "2019") {
+    const ninteenCars = filterCarsByYear(carInventory, selectedValue);
+    clear()
+    displayAllCars(ninteenCars);
+  } else if (selectedValue === "2021") {
+    const twentyoneCars = filterCarsByYear(carInventory, selectedValue);
+    clear()
+    displayAllCars(twentyoneCars);
+  } else if (selectedValue === "2022") {
+    const twentytwoCars = filterCarsByYear(carInventory, selectedValue);
+    clear()
+    displayAllCars(twentytwoCars);
   }
 });

@@ -142,6 +142,10 @@ const refreshFilteredCars = () => {
   const filteredByTransmission = filterTransmission.value !== 'all';
   const filteredByYear = filterYear.value !== 'all';
 
+  const countNotAll = [filteredBySearch, filteredByAvailability, filteredByManufacture, filteredByTransmission, filteredByYear].filter(value => value).length;
+
+  filteredCars = (countNotAll <= 1 ? carInventory : filteredCars);
+
   if (filteredBySearch) {
     filteredCars = carInventory.filter(car => car.manufacture.toLowerCase().includes(searchInput.value.toLowerCase()));
   }
@@ -188,3 +192,8 @@ filterTransmission.addEventListener('change', (event) => {
   renderCars(filteredCars);
 });
 
+filterYear.addEventListener('change', (event) => {
+  listCarSection.innerHTML = '';
+  refreshFilteredCars();
+  renderCars(filteredCars);
+});

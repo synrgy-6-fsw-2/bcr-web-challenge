@@ -142,9 +142,7 @@ const refreshFilteredCars = () => {
   const filteredByTransmission = filterTransmission.value !== 'all';
   const filteredByYear = filterYear.value !== 'all';
 
-  const countNotAll = [filteredBySearch, filteredByAvailability, filteredByManufacture, filteredByTransmission, filteredByYear].filter(value => value).length;
-
-  filteredCars = (countNotAll <= 1 ? carInventory : filteredCars);
+  filteredCars = carInventory;
 
   if (filteredBySearch) {
     filteredCars = carInventory.filter(car => car.manufacture.toLowerCase().includes(searchInput.value.toLowerCase()));
@@ -164,6 +162,14 @@ const refreshFilteredCars = () => {
   if (!filteredByAvailability && !filteredByManufacture && !filteredByTransmission && !filteredByYear && !filteredBySearch) {
     filteredCars = carInventory;
   }
+
+}
+
+//Filtering Function
+const filter = () => {
+  listCarSection.innerHTML = '';
+  refreshFilteredCars();
+  renderCars(filteredCars);
 }
 
 // Event Listeners
@@ -175,25 +181,17 @@ searchInput.addEventListener('input', (event) => {
 });
 
 filterAvailability.addEventListener('change', (event) => {
-  listCarSection.innerHTML = '';
-  refreshFilteredCars();
-  renderCars(filteredCars);
+  filter();
 });
 
 filterManufacture.addEventListener('change', (event) => {
-  listCarSection.innerHTML = '';
-  refreshFilteredCars();
-  renderCars(filteredCars);
+  filter();
 });
 
 filterTransmission.addEventListener('change', (event) => {
-  listCarSection.innerHTML = '';
-  refreshFilteredCars();
-  renderCars(filteredCars);
+  filter();
 });
 
 filterYear.addEventListener('change', (event) => {
-  listCarSection.innerHTML = '';
-  refreshFilteredCars();
-  renderCars(filteredCars);
+  filter();
 });

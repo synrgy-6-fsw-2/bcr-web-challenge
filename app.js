@@ -78,3 +78,103 @@ const carInventory = [
     ],
   },
 ];
+const inputManufacture = document.querySelector('input[name="manufacture"]');
+const searchManufactureButton = document.getElementById('button-addon2');
+const tableListCar = document.getElementById('table-body-list-cars');
+const filterAvailability = document.getElementById('filterAvailability');
+const filterManufacture = document.getElementById('filterManufacture');
+const filterTransmission = document.getElementById('filterTransmission');
+const filterYear = document.getElementById('filterYear');
+
+displayCars(carInventory);
+
+// Search berdasarkan manufacture
+function searchCarBasedManufacture() {
+  const searchInput = inputManufacture.value.toLowerCase();
+  const searchManufacture = carInventory.filter((car) =>
+    car.manufacture.toLowerCase().includes(searchInput)
+  );
+  displayCars(searchManufacture);
+}
+
+// Filter berdasarkan availability
+function filterCarAvailability(){
+  const availability = filterAvailability.value;
+  const filteredAvailabilityCars = carInventory.filter((car) => {
+    if (availability === 'all') {
+      return true;
+    } else if (availability === 'available') {
+      return car.available;
+    } else if (availability === 'rented') {
+      return !car.available;
+    }
+  });
+  displayCars(filteredAvailabilityCars);
+}
+
+// Filter berdasarkan manufactur
+function filterCarManufactur(){
+  const manufacture = filterManufacture.value;
+  const filterManufactureCars = carInventory.filter(
+    (car)=>{
+      if(manufacture === 'all'){
+        return true;
+      }
+        return car.manufacture.toLowerCase() === manufacture.toLowerCase()
+    }
+  )
+  displayCars(filterManufactureCars);
+}
+
+// Filter berdasarkan transmission
+function filterCarTransmission(){
+  const transmission = filterTransmission.value;
+  const filterTransmissionCars = carInventory.filter(
+    (car)=>{
+      if(transmission === 'all'){
+        return true;
+      }
+      return car.transmission.toLowerCase() === transmission.toLowerCase()
+    }
+  )
+  displayCars(filterTransmissionCars);
+}
+
+// Filter berdasarkan tahun
+function filterCarYear(){
+  const year = filterYear.value;
+  const filterYearCars = carInventory.filter(
+    (car)=>{
+      if(year === 'all'){
+        return true
+      }
+      return car.year=== parseInt(year)
+    }
+  )
+  displayCars(filterYearCars);
+}
+
+function displayCars(carInventory){
+  tableListCar.innerHTML='';
+
+   for(let i=0;i<carInventory.length;i++){
+    const car = carInventory[i]
+      const row = document.createElement('tr');
+      row.innerHTML=`
+      <td>${car.plate}</td>
+      <td>${car.manufacture}</td>
+      <td>${car.model}</td>
+      <td>${car.type}</td>
+      <td>${car.transmission}</td>
+      <td>${car.year}</td>
+      <td>${car.available ? 'available':'rented'}</td>
+      `;
+      tableListCar.appendChild(row)
+   }
+}
+
+filterAvailability.addEventListener('change', filterCarAvailability);
+filterManufacture.addEventListener('change', filterCarManufactur);
+filterTransmission.addEventListener('change', filterCarTransmission);
+filterYear.addEventListener('change', filterCarYear);
+searchManufactureButton.addEventListener('click', searchCarBasedManufacture);

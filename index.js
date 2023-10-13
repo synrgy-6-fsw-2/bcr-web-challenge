@@ -4,10 +4,25 @@ document.addEventListener('DOMContentLoaded', function () {
     const filterTransmission = document.getElementById('filterTransmission');
     const filterYear = document.getElementById('filterYear');
     const tableBodyListCars = document.getElementById('table-body-list-cars');
-  
+    const searchManufactureInput = document.getElementById('searchManufacture');
+    const searchForm = document.getElementById('form-search-car-manufacture');
+
+    searchForm.addEventListener('submit', function (e) {
+        e.preventDefault(); 
+
+        const searchManufactureValue = searchManufactureInput.value.trim().toLowerCase();
+
+        const filteredCars = carInventory.filter((car) => {
+        return car.manufacture.toLowerCase().includes(searchManufactureValue);
+        });
+
+        renderCarInventory(filteredCars);
+    });
+
     function renderCarInventory(cars) {
       tableBodyListCars.innerHTML = '';
       cars.forEach((car) => {
+        const statusClass = car.available ? 'Available' : 'Rented';
         const row = document.createElement('tr');
         row.innerHTML = `
           <td>${car.plate}</td>
@@ -16,7 +31,7 @@ document.addEventListener('DOMContentLoaded', function () {
           <td>${car.type}</td>
           <td>${car.transmission}</td>
           <td>${car.year}</td>
-          <td>${car.available ? 'Available' : 'Rented'}</td> 
+          <td class="${statusClass}">${car.available ? 'Available' : 'Rented'}</td> 
         `;
         tableBodyListCars.appendChild(row);
       });

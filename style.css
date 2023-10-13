@@ -1,0 +1,9 @@
+  .Available {
+    background-color: green !important; 
+    color: white !important;
+  }
+
+  .Rented {
+    background-color: red !important;
+    color: white !important;
+  }

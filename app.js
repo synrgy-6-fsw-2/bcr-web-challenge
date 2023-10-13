@@ -8,13 +8,7 @@ const carInventory = [
     available: true,
     type: "Sedan",
     year: 2022,
-    options: [
-      "Cruise Control",
-      "Tinted Glass",
-      "Tinted Glass",
-      "Tinted Glass",
-      "AM/FM Stereo",
-    ],
+    options: ["Cruise Control", "Tinted Glass", "Tinted Glass", "Tinted Glass", "AM/FM Stereo"],
     specs: [
       "Brake assist",
       "Leather-wrapped shift knob",
@@ -79,11 +73,12 @@ const carInventory = [
   },
 ];
 
-function initializeTable() {
-  const tableBody = document.getElementById("table-body-list-cars");
+const tableBody = document.getElementById("table-body-list-cars");
+
+function initializeTable(cars) {
   tableBody.innerHTML = "";
 
-  carInventory.forEach((car) => {
+  cars.forEach((car) => {
     const row = document.createElement("tr");
     row.innerHTML = `
       <td>${car.plate}</td>
@@ -99,92 +94,63 @@ function initializeTable() {
 }
 
 function searchByManufacture(manufacture) {
-  const filteredCars = carInventory.filter(
-    (car) => car.manufacture.toLowerCase() === manufacture.toLowerCase()
-  );
-  updateTable(filteredCars);
+  return carInventory.filter((car) => car.manufacture.toLowerCase() === manufacture.toLowerCase());
 }
 
 function filterByAvailability(availability) {
   if (availability === "all") {
-    updateTable(carInventory);
-  } else if (availability === "available") {
-    const filteredCars = carInventory.filter((car) => car.available === true);
-    updateTable(filteredCars);
-  } else if (availability === "rented") {
-    const filteredCars = carInventory.filter((car) => car.available === false);
-    updateTable(filteredCars);
+    return carInventory;
   }
+  return carInventory.filter((car) => car.available === (availability === "available"));
 }
 
 function filterByYear(year) {
   if (year === "all") {
-    updateTable(carInventory);
-  } else {
-    const filteredCars = carInventory.filter(
-      (car) => car.year === parseInt(year)
-    );
-    updateTable(filteredCars);
+    return carInventory;
   }
+  return carInventory.filter((car) => car.year === parseInt(year));
 }
 
 function filterByManufacture(manufacture) {
   if (manufacture === "all") {
-    updateTable(carInventory);
-  } else {
-    const filteredCars = carInventory.filter(
-      (car) => car.manufacture.toLowerCase() === manufacture.toLowerCase()
-    );
-    updateTable(filteredCars);
+    return carInventory;
   }
+  return carInventory.filter((car) => car.manufacture.toLowerCase() === manufacture.toLowerCase());
 }
 
 function filterByTransmission(transmission) {
   if (transmission === "all") {
-    updateTable(carInventory);
-  } else {
-    const filteredCars = carInventory.filter(
-      (car) => car.transmission.toLowerCase() === transmission.toLowerCase()
-    );
-    updateTable(filteredCars);
+    return carInventory;
   }
-}
-
-function updateTable(filteredCars) {
-  const tableBody = document.getElementById("table-body-list-cars");
-  tableBody.innerHTML = "";
-
-  filteredCars.forEach((car) => {
-    const row = document.createElement("tr");
-    row.innerHTML = `
-      <td>${car.plate}</td>
-      <td>${car.manufacture}</td>
-      <td>${car.model}</td>
-      <td>${car.type}</td>
-      <td>${car.transmission}</td>
-      <td>${car.year}</td>
-      <td>${car.available ? "Available" : "Rented"}</td>
-    `;
-    tableBody.appendChild(row);
-  });
+  return carInventory.filter(
+    (car) => car.transmission.toLowerCase() === transmission.toLowerCase()
+  );
 }
 
 const searchForm = document.getElementById("form-search-car-manufacture");
-searchForm.addEventListener("submit", function (event) {
-  event.preventDefault();
-  const manufactureInput = document.querySelector('[name="manufacture"]').value;
-  searchByManufacture(manufactureInput);
-});
+const manufactureInput = document.querySelector('[name="manufacture"]');
 
 const availabilitySelect = document.getElementById("filterAvailability");
-availabilitySelect.addEventListener("change", function () {
-  const availabilityValue = availabilitySelect.value;
-  filterByAvailability(availabilityValue);
+const yearSelect = document.getElementById("filterYear");
+const manufactureSelect = document.getElementById("filterManufacture");
+const transmissionSelect = document.getElementById("filterTransmission");
+
+searchForm.addEventListener("submit", function (event) {
+  event.preventDefault();
+  let keyword = manufactureInput.value;
+  let result = searchByManufacture(keyword);
+
+  initializeTable(result);
 });
 
-const yearSelect = document.getElementById("filterYear");
-const uniqueYear = [...new Set(carInventory.map((car) => car.year))];
+availabilitySelect.addEventListener("change", (e) => {
+  const availabilityValue = e.target.value;
+  let result = filterByAvailability(availabilityValue);
 
+  initializeTable(result);
+});
+
+const uniqueYear = [...new Set(carInventory.map((car) => car.year))];
 uniqueYear.forEach((year) => {
   const option = document.createElement("option");
   option.value = year;
@@ -192,16 +158,14 @@ uniqueYear.forEach((year) => {
   yearSelect.add(option);
 });
 
-yearSelect.addEventListener("change", function () {
-  const yearValue = yearSelect.value;
-  filterByYear(yearValue);
+yearSelect.addEventListener("change", (e) => {
+  const yearValue = e.target.value;
+  const result = filterByYear(yearValue);
+
+  initializeTable(result);
 });
 
-const manufactureSelect = document.getElementById("filterManufacture");
-const uniqueManufactures = [
-  ...new Set(carInventory.map((car) => car.manufacture)),
-];
-
+const uniqueManufactures = [...new Set(carInventory.map((car) => car.manufacture))];
 uniqueManufactures.forEach((manufacture) => {
   const option = document.createElement("option");
   option.value = manufacture;
@@ -209,16 +173,14 @@ uniqueManufactures.forEach((manufacture) => {
   manufactureSelect.add(option);
 });
 
-manufactureSelect.addEventListener("change", function () {
-  const manufactureValue = manufactureSelect.value;
-  filterByManufacture(manufactureValue);
+manufactureSelect.addEventListener("change", (e) => {
+  const manufactureValue = e.target.value;
+  const result = filterByManufacture(manufactureValue);
+
+  initializeTable(result);
 });
 
-const transmissionSelect = document.getElementById("filterTransmission");
-const uniqueTransmission = [
-  ...new Set(carInventory.map((car) => car.transmission)),
-];
-
+const uniqueTransmission = [...new Set(carInventory.map((car) => car.transmission))];
 uniqueTransmission.forEach((transmission) => {
   const option = document.createElement("option");
   option.value = transmission;
@@ -226,9 +188,11 @@ uniqueTransmission.forEach((transmission) => {
   transmissionSelect.add(option);
 });
 
-transmissionSelect.addEventListener("change", function () {
-  const transmissionValue = transmissionSelect.value;
-  filterByTransmission(transmissionValue);
+transmissionSelect.addEventListener("change", (e) => {
+  const transmissionValue = e.target.value;
+  const result = filterByTransmission(transmissionValue);
+
+  initializeTable(result);
 });
 
-initializeTable();
+initializeTable(carInventory);

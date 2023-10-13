@@ -78,3 +78,5 @@ const carInventory = [
     ],
   },
 ];
+
+window.carInventory = carInventory;

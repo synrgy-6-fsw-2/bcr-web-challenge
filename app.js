@@ -80,15 +80,9 @@ const carInventory = [
 ];
 
 // Global Variables
+var filteredCars = carInventory;
+
 const listCarSection = document.querySelector("#table-body-list-cars");
-
-let filteredCars = carInventory;
-
-const filterByAvailableValue = document.querySelector('#filterAvailability').value.toLowerCase();
-const filterByManufactureValue = document.querySelector('#filterManufacture').value.toLowerCase();
-const filterByTransmissionValue = document.querySelector('#filterTransmission').value.toLowerCase();
-const filterByYearValue = document.querySelector('#filterYear').value.toLowerCase();
-
 
 const searchInput = document.querySelector('#input-manufacture');
 const filterAvailability = document.querySelector('#filterAvailability');
@@ -139,216 +133,53 @@ const renderCars = (filteredCars) => {
 // Initial Render
 renderCars(filteredCars);
 
-// Funtion to Check whether there is only one or none filter
-const noFilter = () => {
+// Iterate filter
+const refreshFilteredCars = () => {
+  const filteredByAvailability = filterAvailability.value !== 'all';
+  const filteredByManufacture = filterManufacture.value !== 'all';
+  const filteredByTransmission = filterTransmission.value !== 'all';
+  const filteredByYear = filterYear.value !== 'all';
 
-  const notAllCount = [filterByAvailableValue, filterByManufactureValue, filterByTransmissionValue, filterByYearValue].filter(value => value !== 'all').length;
-
-  return (notAllCount <= 1);
-}
-
-// Filter Function
-const filterCarsByAvailable = (selectedValue) => {
-  if (selectedValue == "yes") {
-    if (noFilter()) {
-      filteredCars = carInventory.filter(car => {
-        return (car.available == true);
-      })
-    }
-    else {
-      filteredCars = filteredCars.filter(car => {
-        return (car.available == true);
-      })
-    }
-    listCarSection.innerHTML = '';
-    renderCars(filteredCars);
+  if (filteredByAvailability) {
+    filteredCars = carInventory.filter(car => car.available.toString() == (filterAvailability.value));
   }
-  else if (selectedValue == "no") {
-    if (noFilter()) {
-      filteredCars = carInventory.filter(car => {
-        return (car.available == false);
-      })
-    }
-    else {
-      filteredCars = filteredCars.filter(car => {
-        return (car.available == false);
-      })
-    }
-    listCarSection.innerHTML = '';
-    renderCars(filteredCars);
+  if (filteredByManufacture) {
+    filteredCars = filteredCars.filter(car => car.manufacture.toLowerCase() == filterManufacture.value);
   }
-  else if (selectedValue == "all") {
-    filterCheck();
+  if (filteredByTransmission) {
+    filteredCars = filteredCars.filter(car => car.transmission.toLowerCase() == filterTransmission.value);
   }
-};
-
-const filterCarsByManufacture = (selectedValue) => {
-  if (selectedValue == "ford") {
-    if (noFilter()) {
-      filteredCars = carInventory.filter(car => {
-        return car.manufacture.toLowerCase().includes("ford");
-      })
-    }
-    else {
-      filteredCars = filteredCars.filter(car => {
-        return car.manufacture.toLowerCase().includes("ford");
-      })
-    }
-    listCarSection.innerHTML = '';
-    renderCars(filteredCars);
+  if (filteredByYear) {
+    filteredCars = filteredCars.filter(car => car.year.toString() == filterYear.value);
   }
-  else if (selectedValue == "bmw") {
-    if (noFilter()) {
-      filteredCars = carInventory.filter(car => {
-        return car.manufacture.toLowerCase().includes("bmw");
-      })
-    }
-    else {
-      filteredCars = filteredCars.filter(car => {
-        return car.manufacture.toLowerCase().includes("bmw");
-      })
-    }
-    listCarSection.innerHTML = '';
-    renderCars(filteredCars);
-  }
-  else if (selectedValue == "lincoln") {
-    if (noFilter()) {
-      filteredCars = carInventory.filter(car => {
-        return car.manufacture.toLowerCase().includes("lincoln");
-      })
-    }
-    else {
-      filteredCars = filteredCars.filter(car => {
-        return car.manufacture.toLowerCase().includes("lincoln");
-      })
-    }
-    listCarSection.innerHTML = '';
-    renderCars(filteredCars);
-  }
-  else if (selectedValue == "all") {
-    filterCheck();
-  }
-};
-
-const filterCarsByTransmission = () => {
-  if (selectedValue == "automatic") {
-    if (noFilter()) {
-      filteredCars = carInventory.filter(car => {
-        return car.manufacture.toLowerCase().includes("automatic");
-      })
-    }
-    else {
-      filteredCars = filteredCars.filter(car => {
-        return car.manufacture.toLowerCase().includes("automatic");
-      })
-    }
-    listCarSection.innerHTML = '';
-    renderCars(filteredCars);
-  }
-  else if (selectedValue == "automanual") {
-    if (noFilter()) {
-      filteredCars = carInventory.filter(car => {
-        return car.manufacture.toLowerCase().includes("automanual");
-      })
-    }
-    else {
-      filteredCars = filteredCars.filter(car => {
-        return car.manufacture.toLowerCase().includes("automanual");
-      })
-    }
-    listCarSection.innerHTML = '';
-    renderCars(filteredCars);
-  }
-  else if (selectedValue == "all") {
-    filterCheck();
+  if (!filteredByAvailability && !filteredByManufacture && !filteredByTransmission && !filteredByYear) {
+    filteredCars = carInventory;
   }
 }
 
-const filterCarsByYear = () => {
-  if (selectedValue == "2019") {
-    if (noFilter()) {
-      filteredCars = carInventory.filter(car => {
-        return car.manufacture.toLowerCase().includes("2019");
-      })
-    }
-    else {
-      filteredCars = filteredCars.filter(car => {
-        return car.manufacture.toLowerCase().includes("2019");
-      })
-    }
-    listCarSection.innerHTML = '';
-    renderCars(filteredCars);
-  }
-  else if (selectedValue == "2021") {
-    if (noFilter()) {
-      filteredCars = carInventory.filter(car => {
-        return car.manufacture.toLowerCase().includes("2021");
-      })
-    }
-    else {
-      filteredCars = filteredCars.filter(car => {
-        return car.manufacture.toLowerCase().includes("2021");
-      })
-    }
-    listCarSection.innerHTML = '';
-    renderCars(filteredCars);
-  }
-  else if (selectedValue == "2022") {
-    if (noFilter()) {
-      filteredCars = carInventory.filter(car => {
-        return car.manufacture.toLowerCase().includes("2022");
-      })
-    }
-    else {
-      filteredCars = filteredCars.filter(car => {
-        return car.manufacture.toLowerCase().includes("2022");
-      })
-    }
-    listCarSection.innerHTML = '';
-    renderCars(filteredCars);
-  }
-  else if (selectedValue == "all") {
-    filterCheck();
-  }
-}
-
-const filterCheck = () => {
-  const filterArrayOptions = [filterByAvailableValue, filterByManufactureValue, filterByTransmissionValue, filterByYearValue];
-  for (let i = 0; i < filterArrayOptions.length; i++) {
-    if (filterArrayOptions[i] !== 'all') {
-      if (i == 0) {
-        filterCarsByAvailable();
-      }
-      else if (i == 1) {
-        filterCarsByManufacture();
-      }
-      else if (i == 2) {
-        filterCarsByTransmission();
-      }
-      else if (i == 3) {
-        filterCarsByYear();
-      }
-    }
-  }
-}
-
-
-
-
-
-searchInput.addEventListener('input', function () {
-
-  const searchValue = this.value.toLowerCase();
-  filteredCars = carInventory.filter(car => {
-    return car.manufacture.toLowerCase().includes(searchValue);
-  });
+// Event Listeners
+searchInput.addEventListener('input', (event) => {
+  const searchValue = event.target.value.toLowerCase();
+  filteredCars = carInventory.filter(car => car.manufacture.toLowerCase().includes(searchValue));
   listCarSection.innerHTML = '';
   renderCars(filteredCars);
 });
 
-
-
-filterManufacture.addEventListener('change', function () {
-  let selectedValue = this.value;
-  filterCarsByManufacture(selectedValue);
+filterAvailability.addEventListener('change', (event) => {
+  listCarSection.innerHTML = '';
+  refreshFilteredCars();
+  renderCars(filteredCars);
 });
+
+filterManufacture.addEventListener('change', (event) => {
+  listCarSection.innerHTML = '';
+  refreshFilteredCars();
+  renderCars(filteredCars);
+});
+
+filterTransmission.addEventListener('change', (event) => {
+  listCarSection.innerHTML = '';
+  refreshFilteredCars();
+  renderCars(filteredCars);
+});
+

@@ -1,0 +1,15 @@
+.available {
+    background-color: #4CAF50; 
+    color: white; 
+    border-radius: 5px; 
+    padding: 8px; 
+    text-align: center;
+  }
+  
+  .rented {
+    background-color: #FF5733; 
+    color: white; 
+    border-radius: 5px; 
+    padding: 8px;
+    text-align: center;
+  }

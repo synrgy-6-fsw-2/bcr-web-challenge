@@ -78,3 +78,100 @@ const carInventory = [
     ],
   },
 ];
+
+function displayAllCars(cars_) {
+  cars_.forEach(json_data_set => {
+    var tr = document.createElement("tr");
+
+    const selectedProperties = [
+      'plate',
+      'manufacture',
+      'model',
+      'type',
+      'transmission',
+      'year',
+      'available'];
+
+      selectedProperties.forEach(propertyName => {
+        var td = document.createElement("td");
+        
+        if (propertyName == 'available') {
+          
+          const specialElement = document.createElement("div");
+
+          if (json_data_set[propertyName]) {
+            specialElement.className = "available";
+          } else {
+            specialElement.className = "rented";
+          }
+          td.appendChild(specialElement);
+        } else {
+          td.innerText = json_data_set[propertyName];
+        }
+  
+        tr.appendChild(td);
+      });
+
+    document.getElementById("table-body-list-cars").appendChild(tr);
+  });
+}
+
+displayAllCars(carInventory);
+
+function clear(){
+  var parentElement = document.getElementById("table-body-list-cars");
+
+  if (parentElement) {
+      while (parentElement.firstChild) {
+          parentElement.removeChild(parentElement.firstChild);
+      }
+  }
+}
+
+function filterAvailableCars(carInventory_) {
+  return carInventory_.filter(car => car.available == true);
+}
+
+function filterRentedCars(carInventory_) {
+  return carInventory_.filter(car => car.available == false);
+}
+
+
+console.log(filterAvailableCars(carInventory));
+
+document.getElementById("filterAvailability").addEventListener("change", function () {
+  const selectedValue = this.value;
+  
+  if (selectedValue === "all") {
+    clear()
+    displayAllCars(carInventory);
+  } else if (selectedValue === "available") {
+    const availableCars = filterAvailableCars(carInventory);
+    clear()
+    displayAllCars(availableCars);
+  } else if (selectedValue === "rented") {
+    const rentedCars = filterRentedCars(carInventory);
+    clear()
+    displayAllCars(rentedCars);
+  }
+});
+
+
+const button = document.getElementById('button-addon2');
+const input = document.querySelector('[name="manufacture"]');
+const carList = document.getElementById('carList');
+
+// Add an event listener to the form
+button.addEventListener('submit', function (e) {
+  e.preventDefault();
+
+  const inputValue = input.value.toLowerCase();
+
+  const filteredCars = carInventory.filter((car) =>
+    car.manufacture.toLowerCase().includes(inputValue)
+  );
+
+  // Display the filtered cars
+  displayCars(filteredCars);
+});
+

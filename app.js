@@ -135,13 +135,18 @@ renderCars(filteredCars);
 
 // Iterate filter
 const refreshFilteredCars = () => {
+
+  const filteredBySearch = searchInput.value !== '';
   const filteredByAvailability = filterAvailability.value !== 'all';
   const filteredByManufacture = filterManufacture.value !== 'all';
   const filteredByTransmission = filterTransmission.value !== 'all';
   const filteredByYear = filterYear.value !== 'all';
 
+  if (filteredBySearch) {
+    filteredCars = carInventory.filter(car => car.manufacture.toLowerCase().includes(searchInput.value.toLowerCase()));
+  }
   if (filteredByAvailability) {
-    filteredCars = carInventory.filter(car => car.available.toString() == (filterAvailability.value));
+    filteredCars = filteredCars.filter(car => car.available.toString() == (filterAvailability.value));
   }
   if (filteredByManufacture) {
     filteredCars = filteredCars.filter(car => car.manufacture.toLowerCase() == filterManufacture.value);
@@ -152,7 +157,7 @@ const refreshFilteredCars = () => {
   if (filteredByYear) {
     filteredCars = filteredCars.filter(car => car.year.toString() == filterYear.value);
   }
-  if (!filteredByAvailability && !filteredByManufacture && !filteredByTransmission && !filteredByYear) {
+  if (!filteredByAvailability && !filteredByManufacture && !filteredByTransmission && !filteredByYear && !filteredBySearch) {
     filteredCars = carInventory;
   }
 }
@@ -160,8 +165,8 @@ const refreshFilteredCars = () => {
 // Event Listeners
 searchInput.addEventListener('input', (event) => {
   const searchValue = event.target.value.toLowerCase();
-  filteredCars = carInventory.filter(car => car.manufacture.toLowerCase().includes(searchValue));
   listCarSection.innerHTML = '';
+  filteredCars = carInventory.filter(car => car.manufacture.toLowerCase().includes(searchValue));
   renderCars(filteredCars);
 });
 

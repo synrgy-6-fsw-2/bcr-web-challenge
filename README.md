@@ -11,4 +11,4 @@
 
 - feat/nama
   contoh:
-  feat/sahat
+  feat/fitri

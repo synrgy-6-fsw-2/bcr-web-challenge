@@ -96,6 +96,48 @@ const filterManufacture = document.querySelector('#filterManufacture');
 const filterTransmission = document.querySelector('#filterTransmission');
 const filterYear = document.querySelector('#filterYear');
 
+// Render Function
+const renderCars = (filteredCars) => {
+  filteredCars.forEach(car => {
+
+    // Create a new table row
+    const tr = document.createElement('tr');
+
+    // Create table data for each property and append it to the table row
+    const tdPlate = document.createElement('td');
+    tdPlate.textContent = car.plate;
+    tr.appendChild(tdPlate);
+
+    const tdManufacture = document.createElement('td');
+    tdManufacture.textContent = car.manufacture;
+    tr.appendChild(tdManufacture);
+
+    const tdModel = document.createElement('td');
+    tdModel.textContent = car.model;
+    tr.appendChild(tdModel);
+
+    const tdType = document.createElement('td');
+    tdType.textContent = car.type;
+    tr.appendChild(tdType);
+
+    const tdTransmission = document.createElement('td');
+    tdTransmission.textContent = car.transmission;
+    tr.appendChild(tdTransmission);
+
+    const tdYear = document.createElement('td');
+    tdYear.textContent = car.year;
+    tr.appendChild(tdYear);
+
+    const tdAvailable = document.createElement('td');
+    tdAvailable.textContent = car.available ? 'Yes' : 'No';
+    tr.appendChild(tdAvailable);
+
+    listCarSection.appendChild(tr);
+  });
+}
+
+// Initial Render
+renderCars(filteredCars);
 
 // Funtion to Check whether there is only one or none filter
 const noFilter = () => {
@@ -223,7 +265,51 @@ const filterCarsByTransmission = () => {
 }
 
 const filterCarsByYear = () => {
-
+  if (selectedValue == "2019") {
+    if (noFilter()) {
+      filteredCars = carInventory.filter(car => {
+        return car.manufacture.toLowerCase().includes("2019");
+      })
+    }
+    else {
+      filteredCars = filteredCars.filter(car => {
+        return car.manufacture.toLowerCase().includes("2019");
+      })
+    }
+    listCarSection.innerHTML = '';
+    renderCars(filteredCars);
+  }
+  else if (selectedValue == "2021") {
+    if (noFilter()) {
+      filteredCars = carInventory.filter(car => {
+        return car.manufacture.toLowerCase().includes("2021");
+      })
+    }
+    else {
+      filteredCars = filteredCars.filter(car => {
+        return car.manufacture.toLowerCase().includes("2021");
+      })
+    }
+    listCarSection.innerHTML = '';
+    renderCars(filteredCars);
+  }
+  else if (selectedValue == "2022") {
+    if (noFilter()) {
+      filteredCars = carInventory.filter(car => {
+        return car.manufacture.toLowerCase().includes("2022");
+      })
+    }
+    else {
+      filteredCars = filteredCars.filter(car => {
+        return car.manufacture.toLowerCase().includes("2022");
+      })
+    }
+    listCarSection.innerHTML = '';
+    renderCars(filteredCars);
+  }
+  else if (selectedValue == "all") {
+    filterCheck();
+  }
 }
 
 const filterCheck = () => {
@@ -247,46 +333,7 @@ const filterCheck = () => {
 }
 
 
-const renderCars = (filteredCars) => {
-  filteredCars.forEach(car => {
 
-    // Create a new table row
-    const tr = document.createElement('tr');
-
-    // Create table data for each property and append it to the table row
-    const tdPlate = document.createElement('td');
-    tdPlate.textContent = car.plate;
-    tr.appendChild(tdPlate);
-
-    const tdManufacture = document.createElement('td');
-    tdManufacture.textContent = car.manufacture;
-    tr.appendChild(tdManufacture);
-
-    const tdModel = document.createElement('td');
-    tdModel.textContent = car.model;
-    tr.appendChild(tdModel);
-
-    const tdType = document.createElement('td');
-    tdType.textContent = car.type;
-    tr.appendChild(tdType);
-
-    const tdTransmission = document.createElement('td');
-    tdTransmission.textContent = car.transmission;
-    tr.appendChild(tdTransmission);
-
-    const tdYear = document.createElement('td');
-    tdYear.textContent = car.year;
-    tr.appendChild(tdYear);
-
-    const tdAvailable = document.createElement('td');
-    tdAvailable.textContent = car.available ? 'Yes' : 'No';
-    tr.appendChild(tdAvailable);
-
-    listCarSection.appendChild(tr);
-  });
-}
-
-renderCars(filteredCars);
 
 
 searchInput.addEventListener('input', function () {

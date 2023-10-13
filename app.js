@@ -116,8 +116,6 @@ function displayAllCars(cars_) {
   });
 }
 
-displayAllCars(carInventory);
-
 function clear(){
   var parentElement = document.getElementById("table-body-list-cars");
 
@@ -132,12 +130,33 @@ function filterAvailableCars(carInventory_) {
   return carInventory_.filter(car => car.available == true);
 }
 
-function filterRentedCars(carInventory_) {
-  return carInventory_.filter(car => car.available == false);
+function filterCarsByManufacture(inventory, manufacturer) {
+  const filteredCars = inventory.filter(car => car.manufacture.toLowerCase() === manufacturer.toLowerCase());
+
+  return filteredCars;
 }
 
 
+const form = document.getElementById('form-search-car-manufacture');
+const input = document.querySelector('[name="manufacture"]');
+
+form.addEventListener('submit', function (e) {
+  e.preventDefault();
+
+  const inputValue = input.value.toLowerCase();
+
+  const filteredCars = carInventory.filter((car) =>
+    car.manufacture.toLowerCase().includes(inputValue)
+  );
+
+  console.log(filteredCars)
+  clear()
+  displayAllCars(filteredCars);
+});
+
+
 console.log(filterAvailableCars(carInventory));
+displayAllCars(carInventory);
 
 document.getElementById("filterAvailability").addEventListener("change", function () {
   const selectedValue = this.value;
@@ -156,22 +175,44 @@ document.getElementById("filterAvailability").addEventListener("change", functio
   }
 });
 
+document.getElementById("filterManufacture").addEventListener("change", function () {
+  const selectedValue = this.value;
 
-const button = document.getElementById('button-addon2');
-const input = document.querySelector('[name="manufacture"]');
-const carList = document.getElementById('carList');
-
-// Add an event listener to the form
-button.addEventListener('submit', function (e) {
-  e.preventDefault();
-
-  const inputValue = input.value.toLowerCase();
-
-  const filteredCars = carInventory.filter((car) =>
-    car.manufacture.toLowerCase().includes(inputValue)
-  );
-
-  // Display the filtered cars
-  displayCars(filteredCars);
+  if (selectedValue === "all") {
+    clear()
+    displayAllCars(carInventory);
+  } else if (selectedValue === "Ford") {
+    const fordCars = filterCarsByManufacture(carInventory, selectedValue);
+    clear()
+    displayAllCars(fordCars);
+  } else if (selectedValue === "BMW") {
+    const bmwCars = filterCarsByManufacture(carInventory, selectedValue);
+    clear()
+    displayAllCars(bmwCars);
+  } else if (selectedValue === "Lincoln") {
+    const lincolnCars = filterCarsByManufacture(carInventory, selectedValue);
+    clear()
+    displayAllCars(lincolnCars);
+  }
 });
 
+document.getElementById("filterManufacture").addEventListener("change", function () {
+  const selectedValue = this.value;
+
+  if (selectedValue === "all") {
+    clear()
+    displayAllCars(carInventory);
+  } else if (selectedValue === "Ford") {
+    const fordCars = filterCarsByManufacture(carInventory, selectedValue);
+    clear()
+    displayAllCars(fordCars);
+  } else if (selectedValue === "BMW") {
+    const bmwCars = filterCarsByManufacture(carInventory, selectedValue);
+    clear()
+    displayAllCars(bmwCars);
+  } else if (selectedValue === "Lincoln") {
+    const lincolnCars = filterCarsByManufacture(carInventory, selectedValue);
+    clear()
+    displayAllCars(lincolnCars);
+  }
+});

@@ -25,6 +25,7 @@
             aria-label="Find Car Manufacture"
             aria-describedby="button-addon2"
             name="manufacture"
+            id="manufactureInput"
           />
           <button
             class="btn btn-outline-secondary"
@@ -61,10 +62,10 @@
                 id="filterManufacture"
                 aria-label="Floating label select example"
               >
-                <option selected>Open this select menu</option>
-                <option value="1">One</option>
-                <option value="2">Two</option>
-                <option value="3">Three</option>
+                <option value="all" selected>All</option>
+                <option value="Ford">Ford</option>
+                <option value="BMW">BMW</option>
+                <option value="Lincoln">Lincoln</option>
               </select>
               <label for="filterManufacture">Filter by Manufacture</label>
             </div>
@@ -76,10 +77,10 @@
                 id="filterTransmission"
                 aria-label="Floating label select example"
               >
-                <option selected>Open this select menu</option>
-                <option value="1">One</option>
-                <option value="2">Two</option>
-                <option value="3">Three</option>
+                <option value="all" selected>All</option>
+                <option value="Automatic">Automatic</option>
+                <option value="Automatic">Automatic</option>
+                <option value="Automanual">Automanual</option>
               </select>
               <label for="filterTransmission">Filter by Transmission</label>
             </div>
@@ -91,10 +92,10 @@
                 id="filterYear"
                 aria-label="Floating label select example"
               >
-                <option selected>Open this select menu</option>
-                <option value="1">One</option>
-                <option value="2">Two</option>
-                <option value="3">Three</option>
+                <option value="all" selected>Open this select menu</option>
+                <option value="2019">2019</option>
+                <option value="2021">2021</option>
+                <option value="2022">2022</option>
               </select>
               <label for="filterYear">Filter by Year</label>
             </div>

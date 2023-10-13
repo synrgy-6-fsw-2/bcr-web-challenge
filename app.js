@@ -87,9 +87,8 @@ document.addEventListener("DOMContentLoaded", function () {
   const searchForm = document.getElementById("form-search-car-manufacture");
   const tableBody = document.getElementById("table-body-list-cars");
 
-  // Fungsi untuk merender daftar mobil
   function renderCarList(filteredCars) {
-    tableBody.innerHTML = ""; // Kosongkan tabel
+    tableBody.innerHTML = "";
 
     filteredCars.forEach((car) => {
       const row = document.createElement("tr");
@@ -106,19 +105,16 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   }
 
-  // Menambahkan event listener ke filter "Filter by Availability"
   filterAvailability.addEventListener("change", function () {
     const availability = filterAvailability.value;
     console.log(availability);
 
     if (availability === "all") {
-      // Jika "All" dipilih, render semua mobil
       const filteredCars = carInventory;
 
       console.log(filteredCars);
       renderCarList(filteredCars);
     } else if (availability === "available") {
-      // Jika status ketersediaan tertentu dipilih, filter mobil sesuai dengan status tersebut
       const filteredCars = carInventory.filter((car) => {
         return car.available === true;
       });
@@ -142,7 +138,6 @@ document.addEventListener("DOMContentLoaded", function () {
     console.log(manufacture);
 
     if (manufacture === "ford") {
-      // Jika status ketersediaan tertentu dipilih, filter mobil sesuai dengan status tersebut
       const filteredCars = carInventory.filter((car) => {
         return car.manufacture === "Ford";
       });
@@ -174,7 +169,6 @@ document.addEventListener("DOMContentLoaded", function () {
     console.log(transmission);
 
     if (transmission === "automatic") {
-      // Jika status ketersediaan tertentu dipilih, filter mobil sesuai dengan status tersebut
       const filteredCars = carInventory.filter((car) => {
         return car.transmission === "Automatic";
       });
@@ -198,7 +192,6 @@ document.addEventListener("DOMContentLoaded", function () {
     console.log(year);
 
     if (year === "2019") {
-      // Jika status ketersediaan tertentu dipilih, filter mobil sesuai dengan status tersebut
       const filteredCars = carInventory.filter((car) => {
         return car.year === 2019;
       });
@@ -236,6 +229,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
     renderCarList(filteredCars);
   });
-  // Render daftar mobil saat halaman dimuat dengan filter "All"
+
   renderCarList(carInventory);
 });
